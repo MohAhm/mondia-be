@@ -1,12 +1,12 @@
-require('dotenv/config')
 const mongoose = require('mongoose')
 
 const { Team } = require('../models/Team')
 const { Employee } = require('../models/Employee')
 const { Task } = require('../models/Task')
 const { teamData, employeeData, taskData } = require('./data')
+const { DATABASE_URL } = require('../config/constants')
 
-const databaseURL = process.env.DATABASE_URL || ''
+const databaseURL = DATABASE_URL || ''
 
 async function getRandomRecordId(model) {
   const count = await model.count().exec()

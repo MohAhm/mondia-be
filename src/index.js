@@ -1,4 +1,3 @@
-require('dotenv/config')
 const express = require('express')
 const mongoose = require('mongoose')
 const swaggerUi = require('swagger-ui-express')
@@ -8,16 +7,18 @@ const taskRouter = require('./routes/task')
 const teamRouter = require('./routes/team')
 
 const swaggerFile = require('../swagger-output.json')
+const { DATABASE_URL, PORT } = require('./config/constants')
 
 const app = express()
 app.use(express.json())
+require("./config/cors")(app)
 app.use('/api/teams', teamRouter)
 app.use('/api/employees', employeeRouter)
 app.use('/api/tasks', taskRouter)
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
-const port = process.env.PORT || 3900
-const databaseURL = process.env.DATABASE_URL || ''
+const port = PORT || 3900
+const databaseURL = DATABASE_URL || ''
 
 mongoose.connect(databaseURL)
   .then(() => console.log('Connected to MongoDB'))

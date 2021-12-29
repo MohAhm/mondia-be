@@ -53,4 +53,14 @@ teamRouter.delete('/:id', async (req, res) => {
   res.send(team)
 })
 
+teamRouter.get('/:id', async (req, res) => {
+  const team = await Team.findById(req.params.id).select('-__v')
+
+  if (!team) {
+    return res.status(404).send("The Team with the given ID was not found.")
+  }
+
+  res.send(team)
+})
+
 module.exports = teamRouter

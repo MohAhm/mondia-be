@@ -64,4 +64,14 @@ employeeRouter.delete('/:id', async (req, res) => {
   res.send(employee)
 })
 
+employeeRouter.get('/:id', async (req, res) => {
+  const employee = await Employee.findById(req.params.id).select('-__v')
+
+  if (!employee) {
+    return res.status(404).send("The employee with the given ID was not found.")
+  }
+
+  res.send(employee)
+})
+
 module.exports = employeeRouter
